@@ -1,6 +1,6 @@
 <?php
 
-namespace DevForge\ApiKit\Credentials;
+namespace DevForge\ApiDev\Credentials;
 
 /**
  * Reads API providers and their credentials from wherever a project keeps them.

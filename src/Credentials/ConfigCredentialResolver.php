@@ -1,6 +1,6 @@
 <?php
 
-namespace DevForge\ApiKit\Credentials;
+namespace DevForge\ApiDev\Credentials;
 
 /**
  * Reads providers from config files, usually config/services.php backed by .env.

@@ -1,6 +1,6 @@
 <?php
 
-namespace DevForge\ApiKit\Exceptions;
+namespace DevForge\ApiDev\Exceptions;
 
 use Illuminate\Http\Client\Response;
 use Illuminate\Http\JsonResponse;

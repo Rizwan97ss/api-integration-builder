@@ -1,6 +1,6 @@
 <?php
 
-namespace DevForge\ApiKit\Tests;
+namespace DevForge\ApiDev\Tests;
 
 /**
  * Boots the package with the builder switched off, as in production.

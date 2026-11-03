@@ -1,6 +1,6 @@
 <?php
 
-use DevForge\ApiKit\Http\Controllers\IntegrationBuilderController;
+use DevForge\ApiDev\Http\Controllers\IntegrationBuilderController;
 use Illuminate\Support\Facades\Route;
 
 Route::middleware((array) config('integration-builder.routes.middleware', ['web', 'auth']))

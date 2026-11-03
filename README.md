@@ -14,14 +14,14 @@ The generated code is plain Laravel and reads your own credentials table or conf
 Install it as a development dependency. The builder writes code into your project, so it should never run in production:
 
 ```bash
-composer require devforge/apikit --dev
+composer require devforge/apidev --dev
 ```
 
 Publish the config, then tell the builder where your API credentials are stored:
 
 ```bash
 php artisan vendor:publish --tag=integration-builder-config
-php artisan apikit:install
+php artisan apidev:install
 ```
 
 The install command lists your tables, suggests how their columns map to the builder's credential keys (for example `client_secret` to `secret_key`, `endpoint` to `url`), detects a matching Eloquent model and writes the mapping to `config/integration-builder.php`. If your credentials live in `.env`, choose the config driver and it prints the `config/services.php` entries to add.

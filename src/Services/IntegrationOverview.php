@@ -1,10 +1,10 @@
 <?php
 
-namespace DevForge\ApiKit\Services;
+namespace DevForge\ApiDev\Services;
 
-use DevForge\ApiKit\Credentials\CredentialResolver;
-use DevForge\ApiKit\Credentials\ProviderCredentials;
-use DevForge\ApiKit\Http\Controllers\IntegrationBuilderController;
+use DevForge\ApiDev\Credentials\CredentialResolver;
+use DevForge\ApiDev\Credentials\ProviderCredentials;
+use DevForge\ApiDev\Http\Controllers\IntegrationBuilderController;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Routing\Route;
 use Illuminate\Routing\Router;

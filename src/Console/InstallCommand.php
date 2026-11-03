@@ -1,10 +1,10 @@
 <?php
 
-namespace DevForge\ApiKit\Console;
+namespace DevForge\ApiDev\Console;
 
-use DevForge\ApiKit\Credentials\CredentialConfigWriter;
-use DevForge\ApiKit\Credentials\CredentialMappingSuggester;
-use DevForge\ApiKit\Credentials\ProviderCredentials;
+use DevForge\ApiDev\Credentials\CredentialConfigWriter;
+use DevForge\ApiDev\Credentials\CredentialMappingSuggester;
+use DevForge\ApiDev\Credentials\ProviderCredentials;
 use Illuminate\Console\Attributes\Description;
 use Illuminate\Console\Attributes\Signature;
 use Illuminate\Console\Command;
@@ -22,7 +22,7 @@ use function Laravel\Prompts\table;
 use function Laravel\Prompts\text;
 use function Laravel\Prompts\warning;
 
-#[Signature('apikit:install
+#[Signature('apidev:install
     {--driver= : Where credentials are stored: database or config}
     {--connection= : The database connection holding the credentials table}
     {--table= : The table holding provider credentials}

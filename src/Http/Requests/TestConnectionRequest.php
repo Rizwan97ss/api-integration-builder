@@ -1,8 +1,8 @@
 <?php
 
-namespace DevForge\ApiKit\Http\Requests;
+namespace DevForge\ApiDev\Http\Requests;
 
-use DevForge\ApiKit\Http\Requests\Concerns\IntegrationValidationRules;
+use DevForge\ApiDev\Http\Requests\Concerns\IntegrationValidationRules;
 use Illuminate\Contracts\Validation\ValidationRule;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\Validator;

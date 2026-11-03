@@ -1,6 +1,6 @@
 <?php
 
-namespace DevForge\ApiKit\Credentials;
+namespace DevForge\ApiDev\Credentials;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Query\Builder;

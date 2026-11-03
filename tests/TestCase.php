@@ -1,10 +1,10 @@
 <?php
 
-namespace DevForge\ApiKit\Tests;
+namespace DevForge\ApiDev\Tests;
 
-use DevForge\ApiKit\Credentials\CredentialResolver;
-use DevForge\ApiKit\Credentials\ProviderCredentials;
-use DevForge\ApiKit\IntegrationBuilderServiceProvider;
+use DevForge\ApiDev\Credentials\CredentialResolver;
+use DevForge\ApiDev\Credentials\ProviderCredentials;
+use DevForge\ApiDev\IntegrationBuilderServiceProvider;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Schema;

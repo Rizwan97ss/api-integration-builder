@@ -1,9 +1,9 @@
 <?php
 
-namespace DevForge\ApiKit\Services;
+namespace DevForge\ApiDev\Services;
 
-use DevForge\ApiKit\Credentials\CredentialResolver;
-use DevForge\ApiKit\Credentials\ProviderCredentials;
+use DevForge\ApiDev\Credentials\CredentialResolver;
+use DevForge\ApiDev\Credentials\ProviderCredentials;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Str;
 

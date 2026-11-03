@@ -1,6 +1,6 @@
 <?php
 
-namespace DevForge\ApiKit\Services;
+namespace DevForge\ApiDev\Services;
 
 use Illuminate\Validation\Rule;
 

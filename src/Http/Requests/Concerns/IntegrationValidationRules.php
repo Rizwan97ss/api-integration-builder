@@ -1,15 +1,15 @@
 <?php
 
-namespace DevForge\ApiKit\Http\Requests\Concerns;
+namespace DevForge\ApiDev\Http\Requests\Concerns;
 
 use Closure;
-use DevForge\ApiKit\Credentials\CredentialResolver;
-use DevForge\ApiKit\Credentials\ProviderCredentials;
-use DevForge\ApiKit\Services\CodeGenerator;
-use DevForge\ApiKit\Services\IntegrationClient;
-use DevForge\ApiKit\Services\SpecImporter;
-use DevForge\ApiKit\Services\StorageSchema;
-use DevForge\ApiKit\Services\ValidationRuleBuilder;
+use DevForge\ApiDev\Credentials\CredentialResolver;
+use DevForge\ApiDev\Credentials\ProviderCredentials;
+use DevForge\ApiDev\Services\CodeGenerator;
+use DevForge\ApiDev\Services\IntegrationClient;
+use DevForge\ApiDev\Services\SpecImporter;
+use DevForge\ApiDev\Services\StorageSchema;
+use DevForge\ApiDev\Services\ValidationRuleBuilder;
 use Illuminate\Contracts\Validation\ValidationRule;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Str;

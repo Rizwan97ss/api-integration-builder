@@ -1,11 +1,11 @@
 <?php
 
-namespace DevForge\ApiKit;
+namespace DevForge\ApiDev;
 
-use DevForge\ApiKit\Console\InstallCommand;
-use DevForge\ApiKit\Credentials\ConfigCredentialResolver;
-use DevForge\ApiKit\Credentials\CredentialResolver;
-use DevForge\ApiKit\Credentials\DatabaseCredentialResolver;
+use DevForge\ApiDev\Console\InstallCommand;
+use DevForge\ApiDev\Credentials\ConfigCredentialResolver;
+use DevForge\ApiDev\Credentials\CredentialResolver;
+use DevForge\ApiDev\Credentials\DatabaseCredentialResolver;
 use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Support\ServiceProvider;
 use InvalidArgumentException;
