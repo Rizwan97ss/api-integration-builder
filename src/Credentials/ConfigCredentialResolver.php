@@ -1,6 +1,6 @@
 <?php
 
-namespace Rizwan\IntegrationBuilder\Credentials;
+namespace DevForge\IntegrationBuilder\Credentials;
 
 /**
  * Reads providers from config files, usually config/services.php backed by .env.

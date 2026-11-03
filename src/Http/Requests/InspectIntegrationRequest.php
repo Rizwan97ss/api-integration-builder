@@ -1,6 +1,6 @@
 <?php
 
-namespace Rizwan\IntegrationBuilder\Http\Requests;
+namespace DevForge\IntegrationBuilder\Http\Requests;
 
 use Illuminate\Contracts\Validation\ValidationRule;
 use Illuminate\Foundation\Http\FormRequest;

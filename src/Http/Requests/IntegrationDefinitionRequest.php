@@ -1,13 +1,13 @@
 <?php
 
-namespace Rizwan\IntegrationBuilder\Http\Requests;
+namespace DevForge\IntegrationBuilder\Http\Requests;
 
+use DevForge\IntegrationBuilder\Http\Requests\Concerns\IntegrationValidationRules;
+use DevForge\IntegrationBuilder\Services\FormPageTemplate;
 use Illuminate\Contracts\Validation\ValidationRule;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\Rule;
 use Illuminate\Validation\Validator;
-use Rizwan\IntegrationBuilder\Http\Requests\Concerns\IntegrationValidationRules;
-use Rizwan\IntegrationBuilder\Services\FormPageTemplate;
 
 class IntegrationDefinitionRequest extends FormRequest
 {

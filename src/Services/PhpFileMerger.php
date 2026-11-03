@@ -1,6 +1,6 @@
 <?php
 
-namespace Rizwan\IntegrationBuilder\Services;
+namespace DevForge\IntegrationBuilder\Services;
 
 use ParseError;
 use PhpToken;

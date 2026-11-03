@@ -1,14 +1,14 @@
 <?php
 
+use DevForge\IntegrationBuilder\Credentials\ConfigCredentialResolver;
+use DevForge\IntegrationBuilder\Credentials\CredentialResolver;
+use DevForge\IntegrationBuilder\Credentials\DatabaseCredentialResolver;
+use DevForge\IntegrationBuilder\Services\CodeGenerator;
+use DevForge\IntegrationBuilder\Services\IntegrationClient;
 use Illuminate\Http\Client\Request;
 use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Route;
-use Rizwan\IntegrationBuilder\Credentials\ConfigCredentialResolver;
-use Rizwan\IntegrationBuilder\Credentials\CredentialResolver;
-use Rizwan\IntegrationBuilder\Credentials\DatabaseCredentialResolver;
-use Rizwan\IntegrationBuilder\Services\CodeGenerator;
-use Rizwan\IntegrationBuilder\Services\IntegrationClient;
 
 test('the service provider merges config, binds the resolver and registers routes and the install command', function () {
     expect(config('integration-builder.credentials.driver'))->toBe('database')
@@ -38,7 +38,7 @@ test('generated controllers load credentials from the table without the package 
         ->toContain("\$apiDetails = DB::table('api_keys')->where('name', 'Acme')->first() ?? throw new RuntimeException('Acme API details are missing from the api_keys table.');")
         ->toContain("\$payload['channel'] = 'api';")
         ->toContain("'email' => ['required', 'email'],")
-        ->not->toContain('Rizwan\\IntegrationBuilder')
+        ->not->toContain('DevForge\\IntegrationBuilder')
         ->not->toContain('secret-token');
 
     expect($plan['routes/web.php']['contents'])->toContain("Route::post('customers', 'createCustomer')->name('create-customer');");

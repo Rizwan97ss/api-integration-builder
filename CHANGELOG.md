@@ -1,6 +1,6 @@
 # Changelog
 
-All notable changes to `rizwan/api-integration-builder` are documented here.
+All notable changes to `devforge/api-integration-builder` are documented here.
 
 ## Unreleased
 

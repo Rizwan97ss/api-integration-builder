@@ -1,6 +1,6 @@
 <?php
 
-namespace Rizwan\IntegrationBuilder\Credentials;
+namespace DevForge\IntegrationBuilder\Credentials;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Query\Builder;

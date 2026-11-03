@@ -1,6 +1,6 @@
 <?php
 
-namespace Rizwan\IntegrationBuilder\Tests;
+namespace DevForge\IntegrationBuilder\Tests;
 
 /**
  * Boots the package with the builder switched off, as in production.

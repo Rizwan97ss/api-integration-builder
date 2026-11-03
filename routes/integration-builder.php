@@ -1,7 +1,7 @@
 <?php
 
+use DevForge\IntegrationBuilder\Http\Controllers\IntegrationBuilderController;
 use Illuminate\Support\Facades\Route;
-use Rizwan\IntegrationBuilder\Http\Controllers\IntegrationBuilderController;
 
 Route::middleware((array) config('integration-builder.routes.middleware', ['web', 'auth']))
     ->prefix((string) config('integration-builder.routes.prefix', 'integration-builder'))

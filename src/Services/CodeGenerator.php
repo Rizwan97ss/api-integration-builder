@@ -1,11 +1,11 @@
 <?php
 
-namespace Rizwan\IntegrationBuilder\Services;
+namespace DevForge\IntegrationBuilder\Services;
 
+use DevForge\IntegrationBuilder\Credentials\CredentialResolver;
+use DevForge\IntegrationBuilder\Credentials\ProviderCredentials;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Str;
-use Rizwan\IntegrationBuilder\Credentials\CredentialResolver;
-use Rizwan\IntegrationBuilder\Credentials\ProviderCredentials;
 
 /**
  * Generates Laravel code for an integration definition.

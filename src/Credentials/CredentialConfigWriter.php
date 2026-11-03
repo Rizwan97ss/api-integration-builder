@@ -1,10 +1,10 @@
 <?php
 
-namespace Rizwan\IntegrationBuilder\Credentials;
+namespace DevForge\IntegrationBuilder\Credentials;
 
+use DevForge\IntegrationBuilder\Services\RendersPhp;
 use Illuminate\Support\Facades\File;
 use PhpToken;
-use Rizwan\IntegrationBuilder\Services\RendersPhp;
 use RuntimeException;
 
 /**

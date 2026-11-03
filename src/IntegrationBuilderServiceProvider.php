@@ -1,14 +1,14 @@
 <?php
 
-namespace Rizwan\IntegrationBuilder;
+namespace DevForge\IntegrationBuilder;
 
+use DevForge\IntegrationBuilder\Console\InstallCommand;
+use DevForge\IntegrationBuilder\Credentials\ConfigCredentialResolver;
+use DevForge\IntegrationBuilder\Credentials\CredentialResolver;
+use DevForge\IntegrationBuilder\Credentials\DatabaseCredentialResolver;
 use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Support\ServiceProvider;
 use InvalidArgumentException;
-use Rizwan\IntegrationBuilder\Console\InstallCommand;
-use Rizwan\IntegrationBuilder\Credentials\ConfigCredentialResolver;
-use Rizwan\IntegrationBuilder\Credentials\CredentialResolver;
-use Rizwan\IntegrationBuilder\Credentials\DatabaseCredentialResolver;
 
 /**
  * Registers the API Integration Builder: config, credential resolver, routes and commands.

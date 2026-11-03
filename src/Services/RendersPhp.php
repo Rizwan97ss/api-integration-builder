@@ -1,6 +1,6 @@
 <?php
 
-namespace Rizwan\IntegrationBuilder\Services;
+namespace DevForge\IntegrationBuilder\Services;
 
 /**
  * Helpers for rendering PHP source code.

@@ -1,20 +1,20 @@
 <?php
 
-namespace Rizwan\IntegrationBuilder\Http\Requests\Concerns;
+namespace DevForge\IntegrationBuilder\Http\Requests\Concerns;
 
 use Closure;
+use DevForge\IntegrationBuilder\Credentials\CredentialResolver;
+use DevForge\IntegrationBuilder\Credentials\ProviderCredentials;
+use DevForge\IntegrationBuilder\Services\CodeGenerator;
+use DevForge\IntegrationBuilder\Services\IntegrationClient;
+use DevForge\IntegrationBuilder\Services\SpecImporter;
+use DevForge\IntegrationBuilder\Services\StorageSchema;
+use DevForge\IntegrationBuilder\Services\ValidationRuleBuilder;
 use Illuminate\Contracts\Validation\ValidationRule;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Str;
 use Illuminate\Validation\Rule;
 use Illuminate\Validation\Validator;
-use Rizwan\IntegrationBuilder\Credentials\CredentialResolver;
-use Rizwan\IntegrationBuilder\Credentials\ProviderCredentials;
-use Rizwan\IntegrationBuilder\Services\CodeGenerator;
-use Rizwan\IntegrationBuilder\Services\IntegrationClient;
-use Rizwan\IntegrationBuilder\Services\SpecImporter;
-use Rizwan\IntegrationBuilder\Services\StorageSchema;
-use Rizwan\IntegrationBuilder\Services\ValidationRuleBuilder;
 
 trait IntegrationValidationRules
 {

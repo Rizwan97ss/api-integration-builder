@@ -14,7 +14,7 @@ The generated code is plain Laravel and reads your own credentials table or conf
 Install it as a development dependency. The builder writes code into your project, so it should never run in production:
 
 ```bash
-composer require rizwan/api-integration-builder --dev
+composer require devforge/api-integration-builder --dev
 ```
 
 Publish the config, then tell the builder where your API credentials are stored:

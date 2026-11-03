@@ -1,10 +1,10 @@
 <?php
 
-namespace Rizwan\IntegrationBuilder\Services;
+namespace DevForge\IntegrationBuilder\Services;
 
+use DevForge\IntegrationBuilder\Credentials\CredentialResolver;
+use DevForge\IntegrationBuilder\Credentials\ProviderCredentials;
 use Illuminate\Support\Str;
-use Rizwan\IntegrationBuilder\Credentials\CredentialResolver;
-use Rizwan\IntegrationBuilder\Credentials\ProviderCredentials;
 
 /**
  * Renders a self-contained API controller in the project's integration style.

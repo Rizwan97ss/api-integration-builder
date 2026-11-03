@@ -1,7 +1,7 @@
 <?php
 
-use Rizwan\IntegrationBuilder\Tests\DisabledTestCase;
-use Rizwan\IntegrationBuilder\Tests\TestCase;
+use DevForge\IntegrationBuilder\Tests\DisabledTestCase;
+use DevForge\IntegrationBuilder\Tests\TestCase;
 
 pest()->extend(TestCase::class)->in('Feature');
 pest()->extend(DisabledTestCase::class)->in('Disabled');

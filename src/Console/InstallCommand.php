@@ -1,14 +1,14 @@
 <?php
 
-namespace Rizwan\IntegrationBuilder\Console;
+namespace DevForge\IntegrationBuilder\Console;
 
+use DevForge\IntegrationBuilder\Credentials\CredentialConfigWriter;
+use DevForge\IntegrationBuilder\Credentials\CredentialMappingSuggester;
+use DevForge\IntegrationBuilder\Credentials\ProviderCredentials;
 use Illuminate\Console\Attributes\Description;
 use Illuminate\Console\Attributes\Signature;
 use Illuminate\Console\Command;
 use Illuminate\Support\Str;
-use Rizwan\IntegrationBuilder\Credentials\CredentialConfigWriter;
-use Rizwan\IntegrationBuilder\Credentials\CredentialMappingSuggester;
-use Rizwan\IntegrationBuilder\Credentials\ProviderCredentials;
 use Throwable;
 
 use function Laravel\Prompts\confirm;

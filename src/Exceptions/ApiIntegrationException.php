@@ -1,6 +1,6 @@
 <?php
 
-namespace Rizwan\IntegrationBuilder\Exceptions;
+namespace DevForge\IntegrationBuilder\Exceptions;
 
 use Illuminate\Http\Client\Response;
 use Illuminate\Http\JsonResponse;

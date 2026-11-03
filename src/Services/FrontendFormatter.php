@@ -1,6 +1,6 @@
 <?php
 
-namespace Rizwan\IntegrationBuilder\Services;
+namespace DevForge\IntegrationBuilder\Services;
 
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Process;

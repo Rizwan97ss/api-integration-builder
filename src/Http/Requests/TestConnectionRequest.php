@@ -1,11 +1,11 @@
 <?php
 
-namespace Rizwan\IntegrationBuilder\Http\Requests;
+namespace DevForge\IntegrationBuilder\Http\Requests;
 
+use DevForge\IntegrationBuilder\Http\Requests\Concerns\IntegrationValidationRules;
 use Illuminate\Contracts\Validation\ValidationRule;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\Validator;
-use Rizwan\IntegrationBuilder\Http\Requests\Concerns\IntegrationValidationRules;
 
 class TestConnectionRequest extends FormRequest
 {

@@ -1,5 +1,5 @@
 {
-    "name": "rizwan/api-integration-builder",
+    "name": "devforge/api-integration-builder",
     "description": "Build, test and generate Laravel API integrations from a UI: auth, endpoints, validation, live tests and clean controller code.",
     "keywords": ["laravel", "api", "integration", "code-generator", "inertia", "vue"],
     "type": "library",
@@ -28,18 +28,18 @@
     },
     "autoload": {
         "psr-4": {
-            "Rizwan\\IntegrationBuilder\\": "src/"
+            "DevForge\\IntegrationBuilder\\": "src/"
         }
     },
     "autoload-dev": {
         "psr-4": {
-            "Rizwan\\IntegrationBuilder\\Tests\\": "tests/"
+            "DevForge\\IntegrationBuilder\\Tests\\": "tests/"
         }
     },
     "extra": {
         "laravel": {
             "providers": [
-                "Rizwan\\IntegrationBuilder\\IntegrationBuilderServiceProvider"
+                "DevForge\\IntegrationBuilder\\IntegrationBuilderServiceProvider"
             ]
         }
     },

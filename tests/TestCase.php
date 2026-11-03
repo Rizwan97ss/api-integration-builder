@@ -1,14 +1,14 @@
 <?php
 
-namespace Rizwan\IntegrationBuilder\Tests;
+namespace DevForge\IntegrationBuilder\Tests;
 
+use DevForge\IntegrationBuilder\Credentials\CredentialResolver;
+use DevForge\IntegrationBuilder\Credentials\ProviderCredentials;
+use DevForge\IntegrationBuilder\IntegrationBuilderServiceProvider;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Schema;
 use Orchestra\Testbench\TestCase as Orchestra;
-use Rizwan\IntegrationBuilder\Credentials\CredentialResolver;
-use Rizwan\IntegrationBuilder\Credentials\ProviderCredentials;
-use Rizwan\IntegrationBuilder\IntegrationBuilderServiceProvider;
 
 abstract class TestCase extends Orchestra
 {

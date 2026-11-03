@@ -1,14 +1,14 @@
 <?php
 
-namespace Rizwan\IntegrationBuilder\Services;
+namespace DevForge\IntegrationBuilder\Services;
 
+use DevForge\IntegrationBuilder\Exceptions\ApiIntegrationException;
 use Illuminate\Http\Client\ConnectionException;
 use Illuminate\Http\Client\Request;
 use Illuminate\Http\Client\Response;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Str;
 use InvalidArgumentException;
-use Rizwan\IntegrationBuilder\Exceptions\ApiIntegrationException;
 
 /**
  * Runs live authentication and endpoint tests from the builder.

@@ -1,7 +1,9 @@
 <?php
 
-namespace Rizwan\IntegrationBuilder\Services;
+namespace DevForge\IntegrationBuilder\Services;
 
+use DevForge\IntegrationBuilder\Credentials\ProviderCredentials;
+use DevForge\IntegrationBuilder\Exceptions\ApiIntegrationException;
 use Illuminate\Http\Client\PendingRequest;
 use Illuminate\Http\Client\Response;
 use Illuminate\Http\UploadedFile;
@@ -9,8 +11,6 @@ use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Crypt;
 use Illuminate\Support\Facades\Http;
 use InvalidArgumentException;
-use Rizwan\IntegrationBuilder\Credentials\ProviderCredentials;
-use Rizwan\IntegrationBuilder\Exceptions\ApiIntegrationException;
 
 /**
  * Builds authenticated HTTP requests for a provider from the configured credential source.

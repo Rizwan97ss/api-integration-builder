@@ -1,7 +1,20 @@
 <?php
 
-namespace Rizwan\IntegrationBuilder\Http\Controllers;
+namespace DevForge\IntegrationBuilder\Http\Controllers;
 
+use DevForge\IntegrationBuilder\Credentials\CredentialResolver;
+use DevForge\IntegrationBuilder\Credentials\ProviderCredentials;
+use DevForge\IntegrationBuilder\Http\Requests\GenerateIntegrationRequest;
+use DevForge\IntegrationBuilder\Http\Requests\ImportSpecRequest;
+use DevForge\IntegrationBuilder\Http\Requests\InspectIntegrationRequest;
+use DevForge\IntegrationBuilder\Http\Requests\IntegrationDefinitionRequest;
+use DevForge\IntegrationBuilder\Http\Requests\TestConnectionRequest;
+use DevForge\IntegrationBuilder\Services\CodeGenerator;
+use DevForge\IntegrationBuilder\Services\EndpointTester;
+use DevForge\IntegrationBuilder\Services\IntegrationClient;
+use DevForge\IntegrationBuilder\Services\IntegrationFileWriter;
+use DevForge\IntegrationBuilder\Services\SpecImporter;
+use DevForge\IntegrationBuilder\Services\ValidationRuleBuilder;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Routing\Controller;
 use Illuminate\Support\Facades\Log;
@@ -9,19 +22,6 @@ use Illuminate\Validation\ValidationException;
 use Inertia\Inertia;
 use Inertia\Response;
 use InvalidArgumentException;
-use Rizwan\IntegrationBuilder\Credentials\CredentialResolver;
-use Rizwan\IntegrationBuilder\Credentials\ProviderCredentials;
-use Rizwan\IntegrationBuilder\Http\Requests\GenerateIntegrationRequest;
-use Rizwan\IntegrationBuilder\Http\Requests\ImportSpecRequest;
-use Rizwan\IntegrationBuilder\Http\Requests\InspectIntegrationRequest;
-use Rizwan\IntegrationBuilder\Http\Requests\IntegrationDefinitionRequest;
-use Rizwan\IntegrationBuilder\Http\Requests\TestConnectionRequest;
-use Rizwan\IntegrationBuilder\Services\CodeGenerator;
-use Rizwan\IntegrationBuilder\Services\EndpointTester;
-use Rizwan\IntegrationBuilder\Services\IntegrationClient;
-use Rizwan\IntegrationBuilder\Services\IntegrationFileWriter;
-use Rizwan\IntegrationBuilder\Services\SpecImporter;
-use Rizwan\IntegrationBuilder\Services\ValidationRuleBuilder;
 
 class IntegrationBuilderController extends Controller
 {
