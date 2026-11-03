@@ -1,0 +1,57 @@
+{
+    "name": "rizwan/api-integration-builder",
+    "description": "Build, test and generate Laravel API integrations from a UI: auth, endpoints, validation, live tests and clean controller code.",
+    "keywords": ["laravel", "api", "integration", "code-generator", "inertia", "vue"],
+    "type": "library",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Rizwan"
+        }
+    ],
+    "require": {
+        "php": "^8.3",
+        "illuminate/support": "^12.0|^13.0",
+        "illuminate/http": "^12.0|^13.0",
+        "illuminate/database": "^12.0|^13.0",
+        "illuminate/console": "^12.0|^13.0",
+        "inertiajs/inertia-laravel": "^2.0|^3.0",
+        "laravel/prompts": "^0.3"
+    },
+    "require-dev": {
+        "orchestra/testbench": "^10.0|^11.0",
+        "pestphp/pest": "^4.0|^5.0",
+        "pestphp/pest-plugin-laravel": "^4.0|^5.0"
+    },
+    "suggest": {
+        "symfony/yaml": "Import OpenAPI documents written in YAML."
+    },
+    "autoload": {
+        "psr-4": {
+            "Rizwan\\IntegrationBuilder\\": "src/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Rizwan\\IntegrationBuilder\\Tests\\": "tests/"
+        }
+    },
+    "extra": {
+        "laravel": {
+            "providers": [
+                "Rizwan\\IntegrationBuilder\\IntegrationBuilderServiceProvider"
+            ]
+        }
+    },
+    "scripts": {
+        "test": "vendor/bin/pest"
+    },
+    "config": {
+        "sort-packages": true,
+        "allow-plugins": {
+            "pestphp/pest-plugin": true
+        }
+    },
+    "minimum-stability": "stable",
+    "prefer-stable": true
+}
