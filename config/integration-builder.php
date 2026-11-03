@@ -34,7 +34,7 @@ return [
     |
     | Drivers: "database" (any table, mapped below), "config" (values from a
     | config file such as config/services.php, usually backed by .env), or
-    | "custom" (a class implementing DevForge\IntegrationBuilder\Credentials\CredentialResolver).
+    | "custom" (a class implementing DevForge\ApiKit\Credentials\CredentialResolver).
     |
     */
 

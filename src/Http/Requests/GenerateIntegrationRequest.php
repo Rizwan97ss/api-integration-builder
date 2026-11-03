@@ -1,6 +1,6 @@
 <?php
 
-namespace DevForge\IntegrationBuilder\Http\Requests;
+namespace DevForge\ApiKit\Http\Requests;
 
 use Illuminate\Contracts\Validation\ValidationRule;
 

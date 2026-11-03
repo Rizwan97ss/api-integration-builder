@@ -1,9 +1,9 @@
 <?php
 
-namespace DevForge\IntegrationBuilder\Services;
+namespace DevForge\ApiKit\Services;
 
-use DevForge\IntegrationBuilder\Credentials\ProviderCredentials;
-use DevForge\IntegrationBuilder\Exceptions\ApiIntegrationException;
+use DevForge\ApiKit\Credentials\ProviderCredentials;
+use DevForge\ApiKit\Exceptions\ApiIntegrationException;
 use Illuminate\Http\Client\PendingRequest;
 use Illuminate\Http\Client\Response;
 use Illuminate\Http\UploadedFile;

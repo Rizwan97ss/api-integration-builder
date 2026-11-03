@@ -1,20 +1,20 @@
 <?php
 
-namespace DevForge\IntegrationBuilder\Http\Controllers;
+namespace DevForge\ApiKit\Http\Controllers;
 
-use DevForge\IntegrationBuilder\Credentials\CredentialResolver;
-use DevForge\IntegrationBuilder\Credentials\ProviderCredentials;
-use DevForge\IntegrationBuilder\Http\Requests\GenerateIntegrationRequest;
-use DevForge\IntegrationBuilder\Http\Requests\ImportSpecRequest;
-use DevForge\IntegrationBuilder\Http\Requests\InspectIntegrationRequest;
-use DevForge\IntegrationBuilder\Http\Requests\IntegrationDefinitionRequest;
-use DevForge\IntegrationBuilder\Http\Requests\TestConnectionRequest;
-use DevForge\IntegrationBuilder\Services\CodeGenerator;
-use DevForge\IntegrationBuilder\Services\EndpointTester;
-use DevForge\IntegrationBuilder\Services\IntegrationClient;
-use DevForge\IntegrationBuilder\Services\IntegrationFileWriter;
-use DevForge\IntegrationBuilder\Services\SpecImporter;
-use DevForge\IntegrationBuilder\Services\ValidationRuleBuilder;
+use DevForge\ApiKit\Credentials\CredentialResolver;
+use DevForge\ApiKit\Credentials\ProviderCredentials;
+use DevForge\ApiKit\Http\Requests\GenerateIntegrationRequest;
+use DevForge\ApiKit\Http\Requests\ImportSpecRequest;
+use DevForge\ApiKit\Http\Requests\InspectIntegrationRequest;
+use DevForge\ApiKit\Http\Requests\IntegrationDefinitionRequest;
+use DevForge\ApiKit\Http\Requests\TestConnectionRequest;
+use DevForge\ApiKit\Services\CodeGenerator;
+use DevForge\ApiKit\Services\EndpointTester;
+use DevForge\ApiKit\Services\IntegrationClient;
+use DevForge\ApiKit\Services\IntegrationFileWriter;
+use DevForge\ApiKit\Services\SpecImporter;
+use DevForge\ApiKit\Services\ValidationRuleBuilder;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Routing\Controller;
 use Illuminate\Support\Facades\Log;

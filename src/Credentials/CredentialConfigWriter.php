@@ -1,8 +1,8 @@
 <?php
 
-namespace DevForge\IntegrationBuilder\Credentials;
+namespace DevForge\ApiKit\Credentials;
 
-use DevForge\IntegrationBuilder\Services\RendersPhp;
+use DevForge\ApiKit\Services\RendersPhp;
 use Illuminate\Support\Facades\File;
 use PhpToken;
 use RuntimeException;

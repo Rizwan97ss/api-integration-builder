@@ -1,8 +1,8 @@
 <?php
 
-namespace DevForge\IntegrationBuilder\Services;
+namespace DevForge\ApiKit\Services;
 
-use DevForge\IntegrationBuilder\Exceptions\ApiIntegrationException;
+use DevForge\ApiKit\Exceptions\ApiIntegrationException;
 use Illuminate\Http\Client\ConnectionException;
 use Illuminate\Http\Client\Request;
 use Illuminate\Http\Client\Response;

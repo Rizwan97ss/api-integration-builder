@@ -1,6 +1,6 @@
 <?php
 
-namespace DevForge\IntegrationBuilder\Services;
+namespace DevForge\ApiKit\Services;
 
 use Illuminate\Support\Str;
 use InvalidArgumentException;

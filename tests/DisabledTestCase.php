@@ -1,6 +1,6 @@
 <?php
 
-namespace DevForge\IntegrationBuilder\Tests;
+namespace DevForge\ApiKit\Tests;
 
 /**
  * Boots the package with the builder switched off, as in production.

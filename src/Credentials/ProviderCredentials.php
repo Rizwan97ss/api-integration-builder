@@ -1,6 +1,6 @@
 <?php
 
-namespace DevForge\IntegrationBuilder\Credentials;
+namespace DevForge\ApiKit\Credentials;
 
 use Carbon\CarbonInterface;
 

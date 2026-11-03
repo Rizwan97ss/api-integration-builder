@@ -1,6 +1,6 @@
 <?php
 
-namespace DevForge\IntegrationBuilder\Services;
+namespace DevForge\ApiKit\Services;
 
 /**
  * Helpers for rendering PHP source code.

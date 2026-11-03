@@ -1,7 +1,7 @@
 <?php
 
-use DevForge\IntegrationBuilder\Tests\DisabledTestCase;
-use DevForge\IntegrationBuilder\Tests\TestCase;
+use DevForge\ApiKit\Tests\DisabledTestCase;
+use DevForge\ApiKit\Tests\TestCase;
 
 pest()->extend(TestCase::class)->in('Feature');
 pest()->extend(DisabledTestCase::class)->in('Disabled');

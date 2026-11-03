@@ -1,6 +1,6 @@
 <?php
 
-namespace DevForge\IntegrationBuilder\Credentials;
+namespace DevForge\ApiKit\Credentials;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\File;

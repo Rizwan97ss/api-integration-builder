@@ -1,10 +1,10 @@
 <?php
 
-use DevForge\IntegrationBuilder\Credentials\ConfigCredentialResolver;
-use DevForge\IntegrationBuilder\Credentials\CredentialResolver;
-use DevForge\IntegrationBuilder\Credentials\DatabaseCredentialResolver;
-use DevForge\IntegrationBuilder\Services\CodeGenerator;
-use DevForge\IntegrationBuilder\Services\IntegrationClient;
+use DevForge\ApiKit\Credentials\ConfigCredentialResolver;
+use DevForge\ApiKit\Credentials\CredentialResolver;
+use DevForge\ApiKit\Credentials\DatabaseCredentialResolver;
+use DevForge\ApiKit\Services\CodeGenerator;
+use DevForge\ApiKit\Services\IntegrationClient;
 use Illuminate\Http\Client\Request;
 use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Facades\Http;
@@ -16,7 +16,7 @@ test('the service provider merges config, binds the resolver and registers route
         ->and(app(CredentialResolver::class))->toBeInstanceOf(DatabaseCredentialResolver::class)
         ->and(Route::has('integration-builder.index'))->toBeTrue()
         ->and(Route::has('integration-builder.generate'))->toBeTrue()
-        ->and(array_keys(Artisan::all()))->toContain('integration-builder:install');
+        ->and(array_keys(Artisan::all()))->toContain('apikit:install');
 });
 
 test('the config driver is used when configured', function () {
@@ -38,7 +38,7 @@ test('generated controllers load credentials from the table without the package 
         ->toContain("\$apiDetails = DB::table('api_keys')->where('name', 'Acme')->first() ?? throw new RuntimeException('Acme API details are missing from the api_keys table.');")
         ->toContain("\$payload['channel'] = 'api';")
         ->toContain("'email' => ['required', 'email'],")
-        ->not->toContain('DevForge\\IntegrationBuilder')
+        ->not->toContain('DevForge\\ApiKit')
         ->not->toContain('secret-token');
 
     expect($plan['routes/web.php']['contents'])->toContain("Route::post('customers', 'createCustomer')->name('create-customer');");
