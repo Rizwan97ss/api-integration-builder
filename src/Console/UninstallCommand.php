@@ -2,8 +2,6 @@
 
 namespace DevForge\ApiDev\Console;
 
-use Illuminate\Console\Attributes\Description;
-use Illuminate\Console\Attributes\Signature;
 use Illuminate\Console\Command;
 use Illuminate\Support\Facades\File;
 
@@ -13,12 +11,24 @@ use function Laravel\Prompts\intro;
 use function Laravel\Prompts\note;
 use function Laravel\Prompts\outro;
 
-#[Signature('apidev:uninstall
-    {--force : Do not ask for confirmation}
-    {--backups : Also delete the backups the builder made}')]
-#[Description('Remove the files the API Integration Builder added, ready for composer remove')]
 class UninstallCommand extends Command
 {
+    /**
+     * The name and signature of the console command.
+     *
+     * @var string
+     */
+    protected $signature = 'apidev:uninstall
+    {--force : Do not ask for confirmation}
+    {--backups : Also delete the backups the builder made}';
+
+    /**
+     * The console command description.
+     *
+     * @var string
+     */
+    protected $description = 'Remove the files the API Integration Builder added, ready for composer remove';
+
     /**
      * Execute the console command.
      *

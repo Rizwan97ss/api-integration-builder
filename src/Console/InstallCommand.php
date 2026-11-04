@@ -5,8 +5,6 @@ namespace DevForge\ApiDev\Console;
 use DevForge\ApiDev\Credentials\CredentialConfigWriter;
 use DevForge\ApiDev\Credentials\CredentialMappingSuggester;
 use DevForge\ApiDev\Credentials\ProviderCredentials;
-use Illuminate\Console\Attributes\Description;
-use Illuminate\Console\Attributes\Signature;
 use Illuminate\Console\Command;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Str;
@@ -23,15 +21,27 @@ use function Laravel\Prompts\table;
 use function Laravel\Prompts\text;
 use function Laravel\Prompts\warning;
 
-#[Signature('apidev:install
+class InstallCommand extends Command
+{
+    /**
+     * The name and signature of the console command.
+     *
+     * @var string
+     */
+    protected $signature = 'apidev:install
     {--driver= : Where credentials are stored: database or config}
     {--connection= : The database connection holding the credentials table}
     {--table= : The table holding provider credentials}
     {--model= : An Eloquent model for that table}
-    {--provider= : For the config driver, the provider key to add, e.g. stripe}')]
-#[Description('Tell the API Integration Builder where your API credentials are stored')]
-class InstallCommand extends Command
-{
+    {--provider= : For the config driver, the provider key to add, e.g. stripe}';
+
+    /**
+     * The console command description.
+     *
+     * @var string
+     */
+    protected $description = 'Tell the API Integration Builder where your API credentials are stored';
+
     /**
      * The command's previous name, kept so existing scripts keep working.
      *

@@ -2,7 +2,13 @@
 
 All notable changes to `devforge/apidev` are documented here.
 
-## 0.2.0
+## 0.2.2
+
+### Fixed
+
+- `php artisan` crashed on Laravel 12 with "cannot have an empty name", because the commands used attributes that only exist in Laravel 13.
+
+## 0.2.1
 
 ### Added
 
