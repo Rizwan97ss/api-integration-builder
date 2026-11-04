@@ -2,6 +2,12 @@
 
 All notable changes to `devforge/apidev` are documented here.
 
+## 0.3.0
+
+### Added
+
+- Choose the HTTP client for generated controllers: Laravel's `Http` facade or Guzzle.
+
 ## 0.2.2
 
 ### Fixed

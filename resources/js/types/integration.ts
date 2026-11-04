@@ -108,6 +108,7 @@ export type IntegrationDefinition = {
         retries: number;
         idempotency_header: string;
         frontend: 'vue' | 'react' | 'blade';
+        http_client: 'http' | 'guzzle';
     };
     endpoints: EndpointDefinition[];
 };

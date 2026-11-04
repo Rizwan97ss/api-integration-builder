@@ -132,6 +132,7 @@ export function newDefinition(): IntegrationDefinition {
             retries: 2,
             idempotency_header: '',
             frontend: 'vue',
+            http_client: 'http',
         },
         endpoints: [],
     };

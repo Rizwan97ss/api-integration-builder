@@ -95,6 +95,12 @@ For APIs that issue tokens, choose **Token from an endpoint** and add the login 
 
 No authentication method is generated automatically.
 
+## HTTP client
+
+Generated controllers send requests with Laravel's `Http` facade by default. Choose **Guzzle** in the builder's first step to generate `GuzzleHttp\Client` calls instead. Both come with Laravel, so there is nothing extra to install. A controller that already exists keeps the client it has.
+
+The builder's own live tests always use Laravel's `Http` client, whichever you choose.
+
 ## What gets generated
 
 For each integration: one `{Name}ApiController` with a method per endpoint and its validation inline, plus a route group in `routes/web.php`. Per endpoint you can also opt in to a form page (read-only until **Edit**) and a model and migration that store the request and the API response.

@@ -3,6 +3,7 @@
 namespace DevForge\ApiDev\Http\Requests;
 
 use DevForge\ApiDev\Http\Requests\Concerns\IntegrationValidationRules;
+use DevForge\ApiDev\Services\ControllerTemplate;
 use DevForge\ApiDev\Services\FormPageTemplate;
 use Illuminate\Contracts\Validation\ValidationRule;
 use Illuminate\Foundation\Http\FormRequest;
@@ -28,6 +29,7 @@ class IntegrationDefinitionRequest extends FormRequest
             'options.retries' => ['nullable', 'integer', 'min:0', 'max:5'],
             'options.idempotency_header' => ['nullable', 'string', 'max:100', 'regex:/^[A-Za-z0-9_\-]+$/'],
             'options.frontend' => ['nullable', Rule::in(FormPageTemplate::FRONTENDS)],
+            'options.http_client' => ['nullable', Rule::in(ControllerTemplate::HTTP_CLIENTS)],
             'endpoints' => ['required', 'array', 'min:1', 'max:100'],
             'endpoints.*' => ['array'],
             'endpoints.*.name' => ['required', 'string', 'max:60', 'regex:/^[A-Za-z][A-Za-z0-9 _\-]*$/'],

@@ -295,7 +295,7 @@ class CodeGenerator
             }
         }
 
-        $notes = ['When the controller already exists only missing methods are added; its constructor, helpers and existing methods are kept.'];
+        $notes = ['When the controller already exists only missing methods are added; its constructor, helpers (including its HTTP client) and existing methods are kept.'];
 
         if ($tokenEndpoint !== null) {
             $notes[] = "Its existing getAuthToken() is kept too, so update it by hand if it should now fetch the token from {$tokenEndpoint['method']}().";

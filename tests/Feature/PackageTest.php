@@ -44,6 +44,21 @@ test('generated controllers load credentials from the table without the package 
     expect($plan['routes/web.php']['contents'])->toContain("Route::post('customers', 'createCustomer')->name('create-customer');");
 });
 
+test('generated controllers can use guzzle instead of the http facade', function () {
+    $provider = $this->provider(['token' => 'secret-token']);
+
+    $definition = definition($provider->id, ['options' => ['timeout' => 15, 'http_client' => 'guzzle']]);
+    $controller = collect(app(CodeGenerator::class)->plan($definition, $provider))
+        ->firstWhere('path', 'app/Http/Controllers/AcmePayApiController.php')['contents'];
+
+    PhpToken::tokenize($controller, TOKEN_PARSE);
+
+    expect($controller)
+        ->toContain('app(Client::class)->request($method, $url, $options)')
+        ->toContain('use GuzzleHttp\Exception\GuzzleException;')
+        ->not->toContain('Http::');
+});
+
 test('the live client fetches a token from the token endpoint and retries once on 401', function () {
     Http::preventStrayRequests();
     $provider = $this->provider(['user_name' => 'api-user', 'password' => 'api-password']);

@@ -78,6 +78,11 @@ if (props.defaultFrontend) {
     definition.options.frontend = props.defaultFrontend;
 }
 
+const httpClientOptions = [
+    { label: 'Laravel HTTP', value: 'http' },
+    { label: 'Guzzle', value: 'guzzle' },
+];
+
 const frontendOptions = [
     { label: 'Vue', value: 'vue' },
     { label: 'React', value: 'react' },
@@ -822,6 +827,23 @@ onMounted(async () => {
                                         >Used for endpoints with "Create form
                                         page" ticked. Blade pages need no
                                         JavaScript framework.</small
+                                    >
+                                </div>
+                                <div class="flex flex-col gap-1 md:col-span-2">
+                                    <label class="text-sm font-medium"
+                                        >Requests are sent with</label
+                                    >
+                                    <SelectButton
+                                        v-model="definition.options.http_client"
+                                        :options="httpClientOptions"
+                                        option-label="label"
+                                        option-value="value"
+                                        :allow-empty="false"
+                                    />
+                                    <small class="text-muted-foreground"
+                                        >The client the generated controller
+                                        uses. An existing controller keeps the
+                                        one it already has.</small
                                     >
                                 </div>
                             </div>

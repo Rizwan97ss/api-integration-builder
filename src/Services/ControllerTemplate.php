@@ -45,6 +45,13 @@ class ControllerTemplate
     public const array HELPERS = ['getAuthToken', 'request'];
 
     /**
+     * HTTP clients generated controllers can send requests with.
+     *
+     * @var list<string>
+     */
+    public const array HTTP_CLIENTS = ['http', 'guzzle'];
+
+    /**
      * @var array<string, mixed>
      */
     protected array $auth;
@@ -107,6 +114,14 @@ class ControllerTemplate
     }
 
     /**
+     * Determine whether generated requests use Guzzle instead of Laravel's Http facade.
+     */
+    public function usesGuzzle(): bool
+    {
+        return ($this->definition['options']['http_client'] ?? 'http') === 'guzzle';
+    }
+
+    /**
      * Get the header that carries an idempotency reference, if any.
      */
     public function idempotencyHeader(): ?string
@@ -162,8 +177,9 @@ class ControllerTemplate
     {
         $imports = [
             ...$this->loader()['imports'],
-            'Illuminate\\Http\\Client\\ConnectionException',
-            'Illuminate\\Support\\Facades\\Http',
+            ...($this->usesGuzzle()
+                ? ['GuzzleHttp\\Client', 'GuzzleHttp\\Exception\\GuzzleException']
+                : ['Illuminate\\Http\\Client\\ConnectionException', 'Illuminate\\Support\\Facades\\Http']),
             'Illuminate\\Support\\Facades\\Log',
         ];
 
@@ -579,6 +595,10 @@ class ControllerTemplate
             $lines[] = '';
         }
 
+        if ($this->usesGuzzle()) {
+            return [...$lines, ...$this->guzzleTokenLines($success, $endpoint, $cacheKey, $timeout, $hasPayload)];
+        }
+
         $client = $isForm
             ? [
                 $this->indent(3).'$response = Http::asForm()',
@@ -617,6 +637,56 @@ class ControllerTemplate
             $this->indent(2).'}',
             '',
             $this->indent(2)."Cache::put({$cacheKey}, encrypt(\$token), now()->addSeconds(max(60, (int) (\$response->json(".$this->export($endpoint['token']['expires_path']).") ?? {$endpoint['token']['ttl']}) - 60)));",
+            '',
+            $this->indent(2).'return '.sprintf($success, '$token').';',
+        ];
+    }
+
+    /**
+     * Render the token request and response handling using Guzzle.
+     *
+     * @param  array<string, mixed>  $endpoint
+     * @return list<string>
+     */
+    protected function guzzleTokenLines(string $success, array $endpoint, string $cacheKey, int $timeout, bool $hasPayload): array
+    {
+        $isForm = $endpoint['body_format'] === 'form';
+
+        $options = [
+            'headers' => $isForm ? "Arr::except(\$this->headers(), ['Content-Type'])" : '$this->headers()',
+            'timeout' => (string) $timeout,
+            'http_errors' => 'false',
+        ];
+
+        if ($hasPayload) {
+            $options[$isForm ? 'form_params' : 'json'] = '$payload';
+        }
+
+        if ($endpoint['token']['basic_username'] !== null) {
+            $options['auth'] = '[(string) $this->'.self::PROPERTY_NAMES[$endpoint['token']['basic_username']]
+                .', (string) $this->'.self::PROPERTY_NAMES[(string) $endpoint['token']['basic_password']].']';
+        }
+
+        return [
+            $this->indent(2).'try {',
+            $this->indent(3).'$response = app(Client::class)->request('.$this->export($endpoint['http_method']).', $url, '.$this->exportExpressions($options, 3).');',
+            $this->indent(2).'} catch (GuzzleException $exception) {',
+            $this->indent(3).'Log::error('.$this->export("{$this->title} authentication failed").", ['message' => \$exception->getMessage()]);",
+            '',
+            $this->indent(3)."return ['success' => false, 'status' => 503, 'message' => \$exception->getMessage(), 'token' => null];",
+            $this->indent(2).'}',
+            '',
+            $this->indent(2).'$status = $response->getStatusCode();',
+            $this->indent(2).'$data = json_decode((string) $response->getBody(), true);',
+            $this->indent(2).'$token = data_get($data, '.$this->export($endpoint['token']['path']).');',
+            '',
+            $this->indent(2).'if ($status >= 400 || ! is_string($token) || $token === \'\') {',
+            $this->indent(3).'Log::error('.$this->export("{$this->title} authentication failed").", ['status' => \$status, 'response' => \$data]);",
+            '',
+            $this->indent(3)."return ['success' => false, 'status' => \$status >= 400 ? \$status : 502, 'message' => ".$this->export("{$this->title} did not return an auth token.").", 'token' => null];",
+            $this->indent(2).'}',
+            '',
+            $this->indent(2)."Cache::put({$cacheKey}, encrypt(\$token), now()->addSeconds(max(60, (int) (data_get(\$data, ".$this->export($endpoint['token']['expires_path']).") ?? {$endpoint['token']['ttl']}) - 60)));",
             '',
             $this->indent(2).'return '.sprintf($success, '$token').';',
         ];
@@ -680,6 +750,10 @@ class ControllerTemplate
             $url[] = $this->indent(2).'$url .= (str_contains($url, \'?\') ? \'&\' : \'?\').http_build_query(['.$this->export((string) ($this->auth['param_name'] ?? 'api_key')).' => (string) $this->apiKey]);';
         }
 
+        if ($this->usesGuzzle()) {
+            return $this->guzzleRequestMethod($url, $timeout);
+        }
+
         return implode("\n", [
             $this->docBlock([
                 "Send a request to the {$label} API.",
@@ -725,6 +799,76 @@ class ControllerTemplate
             $this->indent(2).'return [',
             $this->indent(3)."'success' => \$response->successful(),",
             $this->indent(3)."'status' => \$response->status(),",
+            $this->indent(3)."'data' => \$data,",
+            $this->indent(2).'];',
+            $this->indent(1).'}',
+        ]);
+    }
+
+    /**
+     * Render the generic request helper using Guzzle.
+     *
+     * @param  list<string>  $url
+     */
+    protected function guzzleRequestMethod(array $url, int $timeout): string
+    {
+        $label = $this->title;
+
+        return implode("\n", [
+            $this->docBlock([
+                "Send a request to the {$label} API.",
+                '',
+                '@param  array<string, mixed>  $payload',
+                '@return array<string, mixed>',
+            ], 1),
+            $this->indent(1).'private function request(string $method, string $endpoint, array $payload = [], ?string $authToken = null, ?string $idempotencyRef = null): array',
+            $this->indent(1).'{',
+            ...$url,
+            '',
+            $this->indent(2).'$options = [',
+            $this->indent(3)."'headers' => \$this->headers(\$authToken, \$idempotencyRef),",
+            $this->indent(3)."'timeout' => {$timeout},",
+            $this->indent(3)."'http_errors' => false,",
+            $this->indent(2).'];',
+            '',
+            $this->indent(2).'if ($payload !== []) {',
+            $this->indent(3)."\$options['json'] = \$payload;",
+            $this->indent(2).'}',
+            '',
+            $this->indent(2).'try {',
+            $this->indent(3).'$response = app(Client::class)->request($method, $url, $options);',
+            $this->indent(2).'} catch (GuzzleException $exception) {',
+            $this->indent(3).'Log::error('.$this->export("{$label} API connection failed").', [',
+            $this->indent(4)."'method' => \$method,",
+            $this->indent(4)."'endpoint' => \$endpoint,",
+            $this->indent(4)."'message' => \$exception->getMessage(),",
+            $this->indent(3).']);',
+            '',
+            $this->indent(3)."return ['success' => false, 'status' => 503, 'message' => \$exception->getMessage()];",
+            $this->indent(2).'}',
+            '',
+            $this->indent(2).'$status = $response->getStatusCode();',
+            $this->indent(2).'$body = (string) $response->getBody();',
+            $this->indent(2).'$data = json_decode($body, true) ?? $body;',
+            '',
+            $this->indent(2).'if ($status >= 400) {',
+            $this->indent(3).'Log::error('.$this->export("{$label} API error").', [',
+            $this->indent(4)."'method' => \$method,",
+            $this->indent(4)."'endpoint' => \$endpoint,",
+            $this->indent(4)."'status' => \$status,",
+            $this->indent(4)."'response' => \$data,",
+            $this->indent(3).']);',
+            $this->indent(2).'} else {',
+            $this->indent(3).'Log::info('.$this->export("{$label} API response").', [',
+            $this->indent(4)."'method' => \$method,",
+            $this->indent(4)."'endpoint' => \$endpoint,",
+            $this->indent(4)."'status' => \$status,",
+            $this->indent(3).']);',
+            $this->indent(2).'}',
+            '',
+            $this->indent(2).'return [',
+            $this->indent(3)."'success' => \$status >= 200 && \$status < 300,",
+            $this->indent(3)."'status' => \$status,",
             $this->indent(3)."'data' => \$data,",
             $this->indent(2).'];',
             $this->indent(1).'}',
