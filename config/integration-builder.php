@@ -1,5 +1,7 @@
 <?php
 
+use DevForge\ApiDev\Http\Middleware\AuthorizeBuilder;
+
 return [
 
     /*
@@ -17,8 +19,21 @@ return [
 
     'routes' => [
         'prefix' => env('INTEGRATION_BUILDER_PATH', 'integration-builder'),
-        'middleware' => ['web', 'auth'],
+        'middleware' => ['web', AuthorizeBuilder::class],
     ],
+
+    /*
+    |--------------------------------------------------------------------------
+    | Builder UI
+    |--------------------------------------------------------------------------
+    |
+    | "standalone" serves the prebuilt page from the package, which works in
+    | any project and needs no npm install. "inertia" renders your own
+    | integrations/Builder Inertia page instead.
+    |
+    */
+
+    'ui' => env('INTEGRATION_BUILDER_UI', 'standalone'),
 
     /*
     |--------------------------------------------------------------------------

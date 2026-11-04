@@ -2,7 +2,30 @@
 
 All notable changes to `devforge/apidev` are documented here.
 
-## Unreleased
+## 0.2.0
+
+### Added
+
+- The builder page now ships prebuilt and is served by the package, so it works in any Laravel project with no npm install, build step or copied files.
+- `php artisan apidev:uninstall` removes the config and cached files before `composer remove`.
+- `AuthorizeBuilder` middleware, so apps without a login page get a working builder locally instead of a "Route [login] not defined" error.
+
+### Changed
+
+- `php artisan apidev:install` creates the config itself; there is no separate publish step.
+- Inertia is optional. Set `integration-builder.ui` to `inertia` to render your own page.
+- Blade is the default form page frontend for the prebuilt page.
+
+### Fixed
+
+- Opening the builder before setup no longer fails when the credentials table does not exist.
+- `apidev:install` reports an unreachable database instead of crashing.
+
+### Removed
+
+- The `integration-builder-views` publish tag.
+
+## 0.1.0
 
 ### Added
 

@@ -7,6 +7,7 @@ use Illuminate\Database\Query\Builder;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Crypt;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Schema;
 use Illuminate\Support\Str;
 use InvalidArgumentException;
 use Throwable;
@@ -28,6 +29,10 @@ class DatabaseCredentialResolver implements CredentialResolver
 
     public function all(): array
     {
+        if (! $this->tableExists()) {
+            return [];
+        }
+
         return $this->query()
             ->orderBy($this->nameColumn())
             ->get()
@@ -38,6 +43,10 @@ class DatabaseCredentialResolver implements CredentialResolver
 
     public function find(string $id): ?ProviderCredentials
     {
+        if (! $this->tableExists()) {
+            return null;
+        }
+
         $row = $this->query()->where($this->idColumn(), $id)->first();
 
         return $row === null ? null : $this->toProvider((array) $row);
@@ -86,6 +95,14 @@ class DatabaseCredentialResolver implements CredentialResolver
             'values' => $values,
             'description' => "Load the {$provider->name} API details from {$this->label()}.",
         ];
+    }
+
+    /**
+     * Determine whether the table exists; it may not before the install command has run.
+     */
+    protected function tableExists(): bool
+    {
+        return Schema::connection($this->config['connection'] ?? null)->hasTable($this->table());
     }
 
     /**

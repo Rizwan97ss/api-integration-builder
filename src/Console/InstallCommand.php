@@ -8,6 +8,7 @@ use DevForge\ApiDev\Credentials\ProviderCredentials;
 use Illuminate\Console\Attributes\Description;
 use Illuminate\Console\Attributes\Signature;
 use Illuminate\Console\Command;
+use Illuminate\Support\Facades\File;
 use Illuminate\Support\Str;
 use Throwable;
 
@@ -45,23 +46,27 @@ class InstallCommand extends Command
     {
         intro('API Integration Builder setup');
 
+        $this->publishConfig();
+
         $driver = $this->option('driver') ?? select(
             label: 'Where are your API credentials stored?',
             options: ['database' => 'In a database table', 'config' => 'In .env / config files'],
             default: (string) config('integration-builder.credentials.driver', 'database'),
         );
 
-        $current = (array) config('integration-builder.credentials');
-
-        [$database, $config] = match ($driver) {
-            'database' => [$this->database($suggester), (array) ($current['config'] ?? [])],
-            'config' => [(array) ($current['database'] ?? []), $this->configProviders((array) ($current['config'] ?? []))],
-            default => [null, null],
-        };
-
-        if ($database === null || $config === null) {
+        if (! in_array($driver, ['database', 'config'], true)) {
             error("Unknown driver \"{$driver}\". Use database or config.");
 
+            return self::FAILURE;
+        }
+
+        $current = (array) config('integration-builder.credentials');
+
+        [$database, $config] = $driver === 'database'
+            ? [$this->database($suggester), (array) ($current['config'] ?? [])]
+            : [(array) ($current['database'] ?? []), $this->configProviders((array) ($current['config'] ?? []))];
+
+        if ($database === null) {
             return self::FAILURE;
         }
 
@@ -76,9 +81,20 @@ class InstallCommand extends Command
         info('Saved the credential settings to config/integration-builder.php.');
         note("The previous file was backed up to {$backup}. INTEGRATION_BUILDER_CREDENTIALS in .env, if set, still overrides the driver.");
 
-        outro('Open /integration-builder to build your first integration.');
+        outro('Open /'.ltrim((string) config('integration-builder.routes.prefix'), '/').' to build your first integration.');
 
         return self::SUCCESS;
+    }
+
+    /**
+     * Copy the default config into the project the first time.
+     */
+    protected function publishConfig(): void
+    {
+        if (! File::exists(config_path('integration-builder.php'))) {
+            File::copy(__DIR__.'/../../config/integration-builder.php', config_path('integration-builder.php'));
+            info('Created config/integration-builder.php.');
+        }
     }
 
     /**
@@ -89,7 +105,15 @@ class InstallCommand extends Command
     protected function database(CredentialMappingSuggester $suggester): ?array
     {
         $connection = $this->option('connection') ?: null;
-        $tables = $suggester->tables($connection);
+
+        try {
+            $tables = $suggester->tables($connection);
+        } catch (Throwable $exception) {
+            error('Could not read the database: '.$exception->getMessage());
+            note('Check your database settings in .env, or run this again and choose the config driver.');
+
+            return null;
+        }
 
         if ($tables === []) {
             error('The database has no tables. Run your migrations first, or choose the config driver.');

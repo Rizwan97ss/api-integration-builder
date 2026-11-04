@@ -15,22 +15,47 @@ use DevForge\ApiDev\Services\IntegrationClient;
 use DevForge\ApiDev\Services\IntegrationFileWriter;
 use DevForge\ApiDev\Services\SpecImporter;
 use DevForge\ApiDev\Services\ValidationRuleBuilder;
+use Illuminate\Contracts\Support\Responsable;
+use Illuminate\Contracts\View\View;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Routing\Controller;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Validation\ValidationException;
 use Inertia\Inertia;
-use Inertia\Response;
 use InvalidArgumentException;
+use Symfony\Component\HttpFoundation\BinaryFileResponse;
 
 class IntegrationBuilderController extends Controller
 {
     /**
-     * Show the API integration builder.
+     * Where the prebuilt builder UI lives.
      */
-    public function index(CredentialResolver $credentials): Response
+    protected const string DIST_PATH = __DIR__.'/../../../dist';
+
+    /**
+     * Content types of the prebuilt UI's files.
+     *
+     * @var array<string, string>
+     */
+    protected const array ASSET_TYPES = [
+        'js' => 'text/javascript; charset=utf-8',
+        'css' => 'text/css; charset=utf-8',
+        'woff2' => 'font/woff2',
+        'woff' => 'font/woff',
+        'ttf' => 'font/ttf',
+        'eot' => 'application/vnd.ms-fontobject',
+        'svg' => 'image/svg+xml',
+    ];
+
+    /**
+     * Show the API integration builder.
+     *
+     * The prebuilt page works in any project. Projects that published their
+     * own Inertia page can use it by setting `integration-builder.ui`.
+     */
+    public function index(CredentialResolver $credentials): Responsable|View
     {
-        return Inertia::render('integrations/Builder', [
+        $props = [
             'providers' => array_map(fn (ProviderCredentials $provider): array => [
                 'id' => $provider->id,
                 'name' => $provider->name,
@@ -47,7 +72,52 @@ class IntegrationBuilderController extends Controller
             'credentialColumns' => ProviderCredentials::CREDENTIAL_KEYS,
             'urlColumns' => ProviderCredentials::URL_KEYS,
             'canWriteFiles' => (bool) config('integration-builder.allow_file_writes'),
+        ];
+
+        if (config('integration-builder.ui') === 'inertia' && class_exists(Inertia::class)) {
+            return Inertia::render('integrations/Builder', $props);
+        }
+
+        $urls = [];
+
+        foreach (['import', 'inspect', 'preview', 'test-auth', 'test-endpoint', 'generate'] as $name) {
+            $urls[$name] = route("integration-builder.{$name}", [], false);
+        }
+
+        return view('integration-builder::builder', [
+            'assets' => [
+                'css' => $this->assetUrl('builder.css'),
+                'js' => $this->assetUrl('builder.js'),
+            ],
+            'boot' => [
+                'props' => [...$props, 'defaultFrontend' => 'blade'],
+                'csrfToken' => csrf_token(),
+                'urls' => $urls,
+            ],
         ]);
+    }
+
+    /**
+     * Serve a file of the prebuilt builder UI.
+     */
+    public function asset(string $file): BinaryFileResponse
+    {
+        $path = self::DIST_PATH.'/'.basename($file);
+
+        abort_unless(is_file($path), 404);
+
+        return response()->file($path, [
+            'Content-Type' => self::ASSET_TYPES[pathinfo($path, PATHINFO_EXTENSION)] ?? 'application/octet-stream',
+            'Cache-Control' => 'public, max-age=31536000, immutable',
+        ]);
+    }
+
+    /**
+     * Get an asset's URL, versioned so a new release is not served from cache.
+     */
+    protected function assetUrl(string $file): string
+    {
+        return route('integration-builder.asset', ['file' => $file, 'v' => (int) @filemtime(self::DIST_PATH.'/'.$file)], false);
     }
 
     /**

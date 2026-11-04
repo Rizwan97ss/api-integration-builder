@@ -1,0 +1,18 @@
+{
+    "private": true,
+    "type": "module",
+    "scripts": {
+        "build": "vite build"
+    },
+    "devDependencies": {
+        "@primeuix/themes": "^1.2.5",
+        "@tailwindcss/vite": "^4.1.11",
+        "@vitejs/plugin-vue": "^6.0.0",
+        "primeicons": "^7.0.0",
+        "primevue": "^4.5.5",
+        "tailwindcss": "^4.1.11",
+        "vite": "^7.0.0",
+        "vue": "^3.5.13",
+        "vue-sonner": "^2.0.0"
+    }
+}

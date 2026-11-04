@@ -1,7 +1,7 @@
 {
     "name": "devforge/apidev",
     "description": "Build, test and generate Laravel API integrations from a UI: auth, endpoints, validation, live tests and clean controller code.",
-    "keywords": ["laravel", "api", "integration", "code-generator", "inertia", "vue"],
+    "keywords": ["laravel", "api", "integration", "code-generator"],
     "type": "library",
     "license": "MIT",
     "authors": [
@@ -15,7 +15,6 @@
         "illuminate/http": "^12.0|^13.0",
         "illuminate/database": "^12.0|^13.0",
         "illuminate/console": "^12.0|^13.0",
-        "inertiajs/inertia-laravel": "^2.0|^3.0",
         "laravel/prompts": "^0.3"
     },
     "require-dev": {
@@ -24,6 +23,7 @@
         "pestphp/pest-plugin-laravel": "^4.0|^5.0"
     },
     "suggest": {
+        "inertiajs/inertia-laravel": "Render the builder as your own Inertia page instead of the prebuilt one.",
         "symfony/yaml": "Import OpenAPI documents written in YAML."
     },
     "autoload": {

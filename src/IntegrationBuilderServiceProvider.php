@@ -3,6 +3,7 @@
 namespace DevForge\ApiDev;
 
 use DevForge\ApiDev\Console\InstallCommand;
+use DevForge\ApiDev\Console\UninstallCommand;
 use DevForge\ApiDev\Credentials\ConfigCredentialResolver;
 use DevForge\ApiDev\Credentials\CredentialResolver;
 use DevForge\ApiDev\Credentials\DatabaseCredentialResolver;
@@ -41,6 +42,8 @@ class IntegrationBuilderServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
+        $this->loadViewsFrom(__DIR__.'/../resources/views', 'integration-builder');
+
         if (config('integration-builder.enabled')) {
             $this->loadRoutesFrom(__DIR__.'/../routes/integration-builder.php');
         }
@@ -49,15 +52,11 @@ class IntegrationBuilderServiceProvider extends ServiceProvider
             return;
         }
 
-        $this->commands([InstallCommand::class]);
+        $this->commands([InstallCommand::class, UninstallCommand::class]);
 
         $this->publishes([
             __DIR__.'/../config/integration-builder.php' => config_path('integration-builder.php'),
         ], 'integration-builder-config');
-
-        $this->publishes([
-            __DIR__.'/../resources/js' => resource_path('js'),
-        ], 'integration-builder-views');
     }
 
     /**

@@ -60,6 +60,7 @@ type Props = {
     urlColumns: string[];
     credentialSource: string;
     canWriteFiles: boolean;
+    defaultFrontend?: 'vue' | 'react' | 'blade';
 };
 
 const props = defineProps<Props>();
@@ -72,6 +73,10 @@ type TestInput = {
 };
 
 const definition = reactive(newDefinition());
+
+if (props.defaultFrontend) {
+    definition.options.frontend = props.defaultFrontend;
+}
 
 const frontendOptions = [
     { label: 'Vue', value: 'vue' },
@@ -740,7 +745,7 @@ onMounted(async () => {
                                     >
                                     <small v-else class="text-muted-foreground"
                                         >Used for class names, e.g.
-                                        AcmePaymentsService.</small
+                                        AcmePaymentsApiController.</small
                                     >
                                 </div>
                                 <div class="flex flex-col gap-1">

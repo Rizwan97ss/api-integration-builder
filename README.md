@@ -6,46 +6,52 @@ The generated code is plain Laravel and reads your own credentials table or conf
 
 ## Requirements
 
-- PHP 8.3+ and Laravel 12 or 13
-- For the builder UI: Inertia v3 with Vue 3, Tailwind CSS 4, PrimeVue 4.5 and primeicons 7, and [Wayfinder](https://github.com/laravel/wayfinder) for route helpers
+PHP 8.3+ and Laravel 12 or 13. Nothing else: no Inertia, no npm packages and no build step, because the builder page ships prebuilt inside the package. It works whatever your project's frontend is.
 
 ## Installation
 
-Install it as a development dependency. The builder writes code into your project, so it should never run in production:
-
 ```bash
 composer require devforge/apidev --dev
-```
-
-Publish the config, then tell the builder where your API credentials are stored:
-
-```bash
-php artisan vendor:publish --tag=integration-builder-config
 php artisan apidev:install
 ```
 
-The install command lists your tables, suggests how their columns map to the builder's credential keys (for example `client_secret` to `secret_key`, `endpoint` to `url`), detects a matching Eloquent model and writes the mapping to `config/integration-builder.php`. If your credentials live in `.env`, choose the config driver and it prints the `config/services.php` entries to add.
+Install it with `--dev`: the builder writes code into your project, so it should never run in production.
 
-### Builder UI
+`apidev:install` creates `config/integration-builder.php`, lists your tables, suggests how their columns map to the builder's credential keys (for example `client_secret` to `secret_key`, `endpoint` to `url`) and saves the mapping. If your credentials live in `.env`, choose the config driver and it prints the `config/services.php` entries to add.
 
-Publish the Vue pages and components into `resources/js`, install the UI libraries and rebuild:
+Then open `/integration-builder`. Nothing is copied into `public/` or `resources/`.
+
+**Who can open it:** logged-in users; guests are sent to your login page. In an app without a login page it is open only when `APP_ENV=local`. To change this, set `routes.middleware` in the config, for example `['web', 'auth:admin']`.
+
+## Uninstalling
 
 ```bash
-php artisan vendor:publish --tag=integration-builder-views
-npm install primevue@^4.5 @primeuix/themes primeicons@^7 vue-sonner
-npm run build
+php artisan apidev:uninstall
+composer remove devforge/apidev
 ```
 
-Register PrimeVue in `resources/js/app.ts` with the published helper:
+`apidev:uninstall` deletes `config/integration-builder.php`, clears the cached config and routes, and asks before deleting the builder's backups (`--force` skips the questions and keeps them; `--backups` deletes them).
 
-```ts
-import { installPrimeVue } from '@/lib/primevue';
+Code you generated stays and keeps working, because it never depends on this package. Delete it by hand if you no longer want it.
 
-// inside setup(), after creating the app:
-installPrimeVue(app);
+## Troubleshooting
+
+**`requires ext-posix` or `ext-pcntl` during install or remove (Windows).** Another package in your project, usually Laravel Horizon, needs Linux-only PHP extensions, and Composer checks every package whenever dependencies change. Add `--ignore-platform-req=ext-posix --ignore-platform-req=ext-pcntl` to the command, or tell Composer once for that project:
+
+```bash
+composer config platform.ext-posix 8.4
+composer config platform.ext-pcntl 8.4
 ```
 
-Then open `/integration-builder` while logged in. The page is a normal Inertia page (`integrations/Builder`), so wrap it in your own layout if you like.
+**`Failed to open stream ... devforge/apidev/src/IntegrationBuilderServiceProvider.php` after removing.** The removal was interrupted before the autoload files were rebuilt. Run this; it needs no working `artisan`:
+
+```bash
+composer dump-autoload
+```
+
+**The builder page returns 404.** It is off when `APP_ENV=production`. Set `INTEGRATION_BUILDER_ENABLED=true` to override this, or check `routes.prefix` if you changed the URL.
+
+**Vue or React form pages don't compile.** Those frontends generate Inertia pages, so they need Inertia and Wayfinder in your project. Choose **Blade**, the default, for pages that need nothing extra.
 
 ## Credential sources
 
@@ -93,7 +99,7 @@ No authentication method is generated automatically.
 
 For each integration: one `{Name}ApiController` with a method per endpoint and its validation inline, plus a route group in `routes/web.php`. Per endpoint you can also opt in to a form page (read-only until **Edit**) and a model and migration that store the request and the API response.
 
-Form pages can be generated as an Inertia **Vue** page, an Inertia **React** page (`.tsx`), or a standalone **Blade** view that needs no JavaScript framework or CSS build. Choose the frontend in the builder's first step.
+Form pages can be generated as a standalone **Blade** view (the default, needing no JavaScript framework or CSS build), an Inertia **Vue** page or an Inertia **React** page (`.tsx`). Choose the frontend in the builder's first step.
 
 ```php
 public function createCustomer(Request $request): JsonResponse
@@ -122,7 +128,7 @@ Running the builder again for the same integration only appends missing methods 
 ## Security
 
 - The builder is enabled in every environment except production (`INTEGRATION_BUILDER_ENABLED`), and writes files only when `APP_ENV=local` (`INTEGRATION_BUILDER_WRITES`).
-- Its routes use the `web` and `auth` middleware by default; change `routes.middleware` to restrict them further.
+- Logged-in users can open it; without a login page it is open only on `APP_ENV=local`. Change `routes.middleware` to restrict it further.
 - Credentials are only read. The UI shows which ones are set, never their values, and test results mask secrets.
 - Endpoint paths must be relative to the provider's URL, so credentials are never sent to another host.
 - Every file is previewed with a hash and backed up before it changes, and generated PHP is syntax-checked before it is written.
@@ -138,11 +144,11 @@ Running the builder again for the same integration only appends missing methods 
 | `allow_file_writes`  | `INTEGRATION_BUILDER_WRITES`      | true only when `APP_ENV=local`                    |
 | `backup_path`        | —                                 | `storage/app/private/integration-builder/backups` |
 
-## Testing
+## Developing
 
 ```bash
-composer install
-vendor/bin/pest
+composer install && vendor/bin/pest   # tests
+npm install && npm run build         # rebuild the UI into dist/ and commit it
 ```
 
 ## License
